@@ -27,7 +27,6 @@ public class QRCodeImageAnalyzer implements ImageAnalysis.Analyzer {
         this.listener = listener;
     }
 
-
     @Override
     public void analyze(@NonNull ImageProxy image) {
         if (image.getFormat() == YUV_420_888 || image.getFormat() == YUV_422_888 || image.getFormat() == YUV_444_888) {
@@ -42,7 +41,9 @@ public class QRCodeImageAnalyzer implements ImageAnalysis.Analyzer {
                     image.getWidth(), image.getHeight(),
                     false
             );
+
             BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+
             try {
                 Result result = new QRCodeMultiReader().decode(binaryBitmap);
                 listener.onQRCodeFound(result.getText());
@@ -50,6 +51,7 @@ public class QRCodeImageAnalyzer implements ImageAnalysis.Analyzer {
                 listener.qrCodeNotFound();
             }
         }
+
         image.close();
     }
 }
